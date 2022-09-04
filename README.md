@@ -198,4 +198,25 @@ If you want to learn more about building native executables, please consult http
     
     
     `````````````````````````````````````````
+# Database:
+ - Panache :
+    - Hibernate ORM with Panache (Panache)
+    - Two approaches : <b>active record</b> and <b>data repository - similar to Spring Data JPA</b>
+    - Sample properties
+   
+     ``````````````````````
+     quarkus.datasource.db-kind=postgresql
+     quarkus.datasource.username=database-user
+     quarkus.datasource.password=database-pwd
+     quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/my_database
+     
+         <dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-jdbc-postgresql</artifactId>
+</dependency>
 
+@QuarkusTestResource(H2DatabaseTestResource.class)
+     
+     ``````````````````````
+   - Agroal extension from Quarkus handles data source configuration
+      adding a dependency for the extension is unnecessary when being used for JPA or Panache, because they have a dependency on Agroal
