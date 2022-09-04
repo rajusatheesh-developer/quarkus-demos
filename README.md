@@ -46,12 +46,16 @@
   @Provider indicates the class is an autodiscovered JAX-RS Provider
   ``````````````````````
 # Unit Test Cases
+  - JUnit5 , RestEasy ( has Hamcrests )
   - Annotations
     - @QuarkusTest :Prior to running the tests, the extension starts the constructed Quarkus service, just as if it was constructed with any build tool.
-    
+    - @TestMethodOrder(OrderAnnotation.class) - ensure method order execution
+    - @Order(x) - 
+  - Run Tests : <b>mvn test</b>
+
+
   - Dependencies
   ```````````````````````
-  
   <dependency>
     <groupId>io.quarkus</groupId>
     <artifactId>quarkus-junit5</artifactId>
