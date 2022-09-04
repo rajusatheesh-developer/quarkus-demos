@@ -199,9 +199,8 @@ If you want to learn more about building native executables, please consult http
     
     `````````````````````````````````````````
 # Database:
- - Panache :
-    - Hibernate ORM with Panache (Panache)
-    - Two approaches : <b>active record</b> and <b>data repository - similar to Spring Data JPA</b>
+ - JPA Approach :
+    - EntityManager
     - Sample properties
    
      ``````````````````````
@@ -209,14 +208,60 @@ If you want to learn more about building native executables, please consult http
      quarkus.datasource.username=database-user
      quarkus.datasource.password=database-pwd
      quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/my_database
+       
+       <dependency>
+       <groupId>io.quarkus</groupId>
+       <artifactId>quarkus-jdbc-postgresql</artifactId>
+       </dependency>
      
-         <dependency>
-  <groupId>io.quarkus</groupId>
-  <artifactId>quarkus-jdbc-postgresql</artifactId>
-</dependency>
-
-@QuarkusTestResource(H2DatabaseTestResource.class)
+       @QuarkusTestResource(H2DatabaseTestResource.class)
      
-     ``````````````````````
+     
+      ``````````````````````
    - Agroal extension from Quarkus handles data source configuration
       adding a dependency for the extension is unnecessary when being used for JPA or Panache, because they have a dependency on Agroal
+      
+- Panache Approach :
+    - Hibernate ORM with Panache (Panache)
+    - Two approaches : <b>active record</b> and <b>data repository - similar to Spring Data JPA</b>
+    - Active record :
+      ![image](https://user-images.githubusercontent.com/105092237/188320525-db4be5fb-9590-4735-8006-74abd2185ad6.png)
+      
+       - As objects usually hold data that needs to be stored, the active record approach puts the data access logic into the domain object directly 
+       ````````````````````````
+        <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-hibernate-orm-panache</artifactId>
+        </dependency>
+        
+        @Entity
+        class Book extends PanacheEntity  
+        
+        @Transactional on methods required
+        
+        @Entity is still used to indicate the class is a JPA entity.
+        Getter and setter methods for the fields are not required. During build time, Panache generates the necessary getter and setter methods, replacing field             access in code to use the generated getter and setter methods.
+        Definition of id, the primary key, is handled by PanacheEntity. If there was a need to customize the id configuration, we could do it with the usual JPA             annotations.
+        
+       `````````````````````````
+  - DataRepository Approach :
+    - ![image](https://user-images.githubusercontent.com/105092237/188320817-ecd65939-3fb4-49a2-a8b0-dd80ff260bb6.png)
+    - PanacheRepository
+    - @ApplicationScoped on repository
+    -  @Inject
+  ## which approach ?
+  JPA
+  Easy migration for existing Java EE and Jakarta EE applications.
+  Requires creation of primary key field; not provided by default.
+  @NamedQuery annotations must be placed on an entity or super class.
+  Queries require actual SQL, as opposed to shortcut versions that are used in active record or data repository.
+  Non-primary key search requires SQL or @NamedQuery.
+
+  Active record
+  Doesn’t require getters and setters for all fields.
+  Coupling the data access layer into an object makes testing it without a database difficult. The flip side is that testing with a database is a lot easier than in   the past.
+  Another aspect of coupling, it breaks the single responsibility principle and separation of concerns.
+  Data repository
+  Requires creation of a primary key field; not provided by default.
+  Clearly separates data access and business logic, enabling them to be tested independently.
+  Without custom methods, it’s an empty class. For some, this can seem unusual.
