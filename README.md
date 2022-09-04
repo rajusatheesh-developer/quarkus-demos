@@ -79,7 +79,7 @@
   
   ```````````````````````
   
- - Native Exceutables
+# Native Exceutables
    - Native executables are files containing programs to be executed directly on an operating system, only relying on operating system libraries to be present.
    - AOT Compiler
    - GraalVM : Before creating a native executable, it’s necessary to install GraalVM for the JDK version and operating system in use
@@ -96,3 +96,42 @@
       
       
       --------------------------------------------
+
+# Running in Kubernetes
+ - dependency
+  `````````````````````````
+  <dependency>
+  <groupId>io.quarkus</groupId>
+  <artifactId>quarkus-kubernetes</artifactId>
+  </dependency>
+
+  This dependency adds the Kubernetes extension for Quarkus, which offers the ability to generate, and customize, the necessary YAML for deploying to Kubernetes.
+  We can modify 
+  quarkus.container-image.group=quarkus-mp
+  quarkus.container-image.name=account-service
+  quarkus.kubernetes.name=account-service
+  
+  
+  <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-minikube</artifactId>
+</dependency>
+  
+  https://quarkus.io/guides/deploying-to-kubernetes#deploying-to-minikube.
+  `````````````````````````
+# Packaging Application
+  - Three ways we can build for deploying to Kubernetes
+    Jib (https://github.com/GoogleContainerTools/jib) - quarkus-container-image-jib
+    Docker - quarkus-container-image-docker and Docker daemon
+    S2I (Source to Image) binary build -quarkus-container-image-s2i.
+    
+    ```````````````````````````````````````
+    <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-container-image-jib</artifactId>
+    </dependency>
+    
+    mvn clean package -Dquarkus.container-image.build=true
+    
+    
+    `````````````````````````````````````````
