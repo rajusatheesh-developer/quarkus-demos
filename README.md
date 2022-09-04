@@ -194,7 +194,7 @@ If you want to learn more about building native executables, please consult http
     <artifactId>quarkus-container-image-jib</artifactId>
     </dependency>
     
-    mvn clean package -Dquarkus.container-image.build=true
+    mvn clean package -Dquarkus.container-image.build=true - Builds Container
     
     
     `````````````````````````````````````````
