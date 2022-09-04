@@ -21,7 +21,9 @@
  - Provides EndPoints for installed extensions
    - endpoints are related to Arc, the CDI container for Quarkus
      Dev UI contains extension-specific behavior, such as editing configuration, and links to the guides for each installed extension
-     
+
+# Bean Scopes
+ - @Singleton, @ApplicationScoped, or @RequestScoped
 # Commands 
   ```````````````````````
   1. Run the project 
@@ -31,7 +33,7 @@
   ````````````````````````
   
   
-# RESTEasy Implementing JAX-RS Annotations
+# RESTEasy Implementing JAX-RS Components
   ``````````````````````
   @Path
   @Produces
@@ -39,5 +41,7 @@
   @QuarkusTest
   @NativeImageTest
   @PostConstruct : indicates the method should be called straight after creation of the CDI Bean
+  @PathParam :  maps the accountNumber URL parameter into the accountNumber method parameter.
+  WebApplicationException
   
   ``````````````````````
