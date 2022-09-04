@@ -38,6 +38,6 @@
   @GET
   @QuarkusTest
   @NativeImageTest
-  
+  @PostConstruct : indicates the method should be called straight after creation of the CDI Bean
   
   ``````````````````````
