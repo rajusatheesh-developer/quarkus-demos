@@ -79,3 +79,20 @@
   
   ```````````````````````
   
+ - Native Exceutables
+   - Native executables are files containing programs to be executed directly on an operating system, only relying on operating system libraries to be present.
+   - AOT Compiler
+   - GraalVM : Before creating a native executable, it’s necessary to install GraalVM for the JDK version and operating system in use
+   - In the pom.xml for the project, the profile for the native executable creation was added by the generator 
+   - Instead of using a new profile, we can create a native executable by passing <b>-Dquarkus.package.type=native to mvn clean install</b>. However, having a    
+     profile is more convenient and enables integration testing with a native executable.  
+   - <b>mvn clean install -Pnative</b>  
+      -------------------------------------------
+      The native build process can take a few minutes to complete—much slower than regular Java compilation—depending on the number of classes in the application         and the number of external libraries included.
+
+     Once complete, a -runner executable will be in the /target directory, which is the result of the native executable build process. The native executable will be      specific to the operating system it was built on, as GraalVM uses native libraries to implement certain functionality.
+     To create a native executable that is suitable for use within a Linux container, run mvn package -Pnative -Dquarkus.native.container-build=true
+     Within a native executable, we still have garbage collection, though it uses different garbage collectors than the JVM. One impact of this is very long-running      processes will see better memory performance over time with the JVM instead of the native executable, due to the JVM continually optimizing memory utilization.
+      
+      
+      --------------------------------------------
