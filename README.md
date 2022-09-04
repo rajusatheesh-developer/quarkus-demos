@@ -43,5 +43,35 @@
   @PostConstruct : indicates the method should be called straight after creation of the CDI Bean
   @PathParam :  maps the accountNumber URL parameter into the accountNumber method parameter.
   WebApplicationException
-  
+  @Provider indicates the class is an autodiscovered JAX-RS Provider
   ``````````````````````
+# Unit Test Cases
+  - Annotations
+    - @QuarkusTest :Prior to running the tests, the extension starts the constructed Quarkus service, just as if it was constructed with any build tool.
+    
+  - Dependencies
+  ```````````````````````
+  
+  <dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-junit5</artifactId>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>rest-assured</artifactId>
+    <scope>test</scope>
+</dependency>
+
+ <plugin>
+  <artifactId>maven-surefire-plugin</artifactId>
+  <version>${surefire-plugin.version}</version>      ❶
+  <configuration>
+    <systemPropertyVariables>
+      <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>                               ❷
+    </systemPropertyVariables>
+  </configuration>
+</plugin>
+  
+  ```````````````````````
+  
